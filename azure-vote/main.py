@@ -90,14 +90,14 @@ def index():
         # Get current values
         vote1 = r.get(button1).decode('utf-8')
         # TODO: use tracer object to trace cat vote
-        tracer.span(name="cat_vote_trace")
-        telemetry_client.track_event("cat_vote_trace")
+        tracer.span(name="cat_vote_trace_get")
+        telemetry_client.track_event("cat_vote_trace_get")
         telemetry_client.flush()
-        
+
         vote2 = r.get(button2).decode('utf-8')
         # TODO: use tracer object to trace dog vote
-        tracer.span(name="dog_vote_trace")
-        telemetry_client.track_event("dog_vote_trace")
+        tracer.span(name="dog_vote_trace_get")
+        telemetry_client.track_event("dog_vote_trace_get")
         telemetry_client.flush()
 
         # Return index with values
@@ -106,18 +106,18 @@ def index():
     elif request.method == 'POST':
 
         if request.form['vote'] == 'reset':
-
             # Empty table and return results
+            vote1 = r.get(button1).decode('utf-8')
+            # TODO: use logger object to log cat vote
+            properties = {'custom_dimensions': {'Cats Vote Log': vote1}}
+            logger.info('cat_vote_log_reset', extra=properties)
+
+            vote2 = r.get(button2).decode('utf-8')
+            # TODO: use logger object to log dog vote
+            properties = {'custom_dimensions': {'Dogs Vote Log': vote2}}
+            logger.info('cat_vote_log_reset', extra=properties)
             r.set(button1,0)
             r.set(button2,0)
-            vote1 = r.get(button1).decode('utf-8')
-            properties = {'custom_dimensions': {'Cats Vote': vote1}}
-            # TODO: use logger object to log cat vote
-            logger.info('cat_vote_log', extra=properties)
-            vote2 = r.get(button2).decode('utf-8')
-            properties = {'custom_dimensions': {'Dogs Vote': vote2}}
-            # TODO: use logger object to log dog vote
-            logger.info('dog_vote_log', extra=properties)
             return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
 
         else:
@@ -125,7 +125,12 @@ def index():
             # Insert vote result into DB
             vote = request.form['vote']
             r.incr(vote,1)
-
+            # New event vote
+            telemetry_client.track_event('Click Vote: ' + vote)
+            telemetry_client.flush()
+            # New log vote
+            properties = {'Log Vote': {'Click Vote': vote}}
+            logger.info('New Vote: {}'.format(vote), extra=properties)
             # Get current values
             vote1 = r.get(button1).decode('utf-8')
             vote2 = r.get(button2).decode('utf-8')
