@@ -20,6 +20,7 @@ from opencensus.ext.azure.trace_exporter import AzureExporter
 from opencensus.trace.samplers import ProbabilitySampler
 from opencensus.trace.tracer import Tracer
 from opencensus.ext.flask.flask_middleware import FlaskMiddleware
+from applicationinsights import TelemetryClient
 
 # Logging
 logger = logging.getLogger(__name__)
@@ -38,6 +39,9 @@ tracer = Tracer(
         connection_string='InstrumentationKey=5e2837e6-5c38-4d77-9719-64e7f2d519a4'),
     sampler=ProbabilitySampler(1.0),
 )
+
+#
+telemetry_client = TelemetryClient('5e2837e6-5c38-4d77-9719-64e7f2d519a4')
 
 app = Flask(__name__)
 
@@ -87,10 +91,14 @@ def index():
         vote1 = r.get(button1).decode('utf-8')
         # TODO: use tracer object to trace cat vote
         tracer.span(name="cat_vote_trace")
+        telemetry_client.track_event("cat_vote_trace")
+        telemetry_client.flush()
         
         vote2 = r.get(button2).decode('utf-8')
         # TODO: use tracer object to trace dog vote
         tracer.span(name="dog_vote_trace")
+        telemetry_client.track_event("dog_vote_trace")
+        telemetry_client.flush()
 
         # Return index with values
         return render_template("index.html", value1=int(vote1), value2=int(vote2), button1=button1, button2=button2, title=title)
@@ -127,6 +135,6 @@ def index():
 
 if __name__ == "__main__":
     # comment line below when deploying to VMSS
-    app.run() # local
+    #app.run() # local
     # uncomment the line below before deployment to VMSS
-    # app.run(host='0.0.0.0', threaded=True, debug=True) # remote
+     app.run(host='127.0.0.1', threaded=True, debug=True) # remote
