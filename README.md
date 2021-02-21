@@ -123,25 +123,50 @@ We'll use Azure Pipelines to deploy our application to an Azure VM Scale Set. Fo
 2. Screenshots for the kubernetes cluster which include:
    **Note**: Place all screenshots for Kubernetes Cluster in the `submission-screenshots/kubernetes-cluster` directory
    - The output of the Horizontal Pod Autoscaler, showing an increase in the number of pods.
+   ![](./submission-screenshots/kubernetes-cluster/5_kubernetes_load_hpa.png)
    - The Application Insights metrics which show the increase in the number of pods.
+   ![](./submission-screenshots/kubernetes-cluster/3_kubernters_insights_load_CPU.png)
+   ![](./submission-screenshots/kubernetes-cluster/4_kubernters_insights_load_pods.png)
    - The email you received from the alert when the pod count increased.
+   ![](./submission-screenshots/kubernetes-cluster/6_kubernetes_alert.pngg)
+   ![](./submission-screenshots/kubernetes-cluster/7_kubernetes_mail_alert.png)
 3. Screenshots for the Application Insights which include:
    **Note**: Place all screenshots for Application Insights in the `submission-screenshots/application-insights` directory
    - The metrics from the VM Scale Set instance--this will show CPU %, Available Memory %, Information about the Disk, and information about the bytes sent and received. There will be 7 graphs which display this data.
+   ![](./submission-screenshots/application-insights/2_vmss_app_insights_cpu.png)
+   ![](./submission-screenshots/application-insights/3_vmss_app_insights_memory.png)
+   ![](./submission-screenshots/application-insights/5_vmss_app_insights_bytes_received.png)
+   ![](./submission-screenshots/application-insights/6_vmss_app_insights_disc.png)
    - Application Insight Events which show the results of clicking 'vote' for each 'Dogs' & 'Cats'
+   ![](./submission-screenshots/application-insights/9_app_insights_log_event_votes.png)
+   ![](./submission-screenshots/application-insights/10_app_insights_event_statistics_1.png)
+   ![](./submission-screenshots/application-insights/11_app_insights_event_statistics_2.png)
    - The output of the `traces` query in Azure Log Analytics.
+   ![](./submission-screenshots/application-insights/7_app_insights_log_traces_votes.png)
    - The chart created from the output of the `traces` query.
+   ![](./submission-screenshots/application-insights/8_app_insights_log_traces_votes_graph.png)
 4. Screenshots for the Autoscaling of the VM Scale Set which include:
    **Note**: Place all screenshots for Autoscaling VMSS in the `submission-screenshots/autoscaling-vmss` directory
    - The conditions for which autoscaling will be triggered (found in the 'Scaling' item in the VM Scale Set).
+   ![](./submission-screenshots/autoscaling-vmss/1_vmss_autoscaling_rule.png)
    - The Activity log of the VM scale set which shows that it scaled up with timestamp.
+   ![](./submission-screenshots/autoscaling-vmss/2_vmss_activity_log.png)
    - The new instances being created.
+   ![](./submission-screenshots/autoscaling-vmss/3_vmss_new_instance.png)
    - The metrics which show the load increasing, then decreasing once scaled up with timestamp.
+   ![](./submission-screenshots/autoscaling-vmss/4_vmss_insights.png)
 5. Screenshots for the Azure Runbook which include:
    **Note**: Place all screenshots for RunBook in the `submission-screenshots/runbook` directory
    - The alert configuration in Azure Monitor which shows the resource, condition, action group (this should include a reference to your Runbook), and alert rule details (may need 2 screenshots).
+   ![](./submission-screenshots/runbook/1_runbook_resource_group.png)
+   ![](./submission-screenshots/runbook/2_vmss_alert_rule_create_update.png)
    - The email you received from the alert when the Runbook was executed.
+   ![](./submission-screenshots/runbook/3_runbook_code_python.png)
+   ![](./submission-screenshots/runbook/4_runbook_output.png)
+   ![](./submission-screenshots/runbook/5_runbook_mail.png)
    - The summary of the alert which shows 'why did this alert fire?', timestamps, and the criterion in which it fired.
+   
+   
 
 ## Built With
 
